@@ -1,0 +1,99 @@
+---
+title: "ASAS"
+author: "Steven N Hart"
+date: "09/14/2015"
+output: html_document
+---
+
+
+```{r, echo=FALSE}
+prefix="ASAS_"
+
+library(ggplot2)
+setwd("/data5/bsi/epibreast/m087494.couch/CGSL/Verification/TEST")
+#Get Files, but exclude images already created
+analyses=dir()[grep(prefix,dir())]
+analyses<-analyses[grep(".R",analyses,invert=T)]
+
+Data<-NULL
+
+for (i in 1:length(analyses)){
+  tmp<-read.table(paste(analyses[i],"/results.out",sep=""),sep="\t")
+  names(tmp)<-c("Style","TYPE","SIZE","SNS","SPC","ACC","PPV","TP","FP","FN","TN")
+  tmp$replicate=i
+  Data<-rbind(Data,tmp)
+}
+
+#Keep only exact matched for now
+Data<-Data[which(Data$Style=="Genotype"),]
+#Data<-Data[which(Data$Style=="Variant"),]
+
+TP=tapply(Data$TP,Data$replicate,sum,simplify = T)
+FP=tapply(Data$FP,Data$replicate,sum,simplify = T)
+FN=tapply(Data$FN,Data$replicate,sum,simplify = T)
+TN=tapply(as.numeric(Data$TN),Data$replicate,sum,simplify = T)
+Sensitivity=round(TP/(TP+FN),digits=3)
+Specificity=round(TN/(TN+FP),digits=3)
+Accuracy=round((TP+TN)/(TP+FP+FN+TN),digits=3)
+Replicate=names(TP)
+Table5=data.frame(Replicate,TP,FP,FN,TN,Sensitivity,Specificity,Accuracy)
+
+
+```
+##Table 5
+```{r results='asis', echo=FALSE}
+knitr::kable(Table5)
+write.table(Table5,file="Table5.tsv",sep = "\t",row.names = F)
+```
+
+```{r echo=FALSE}
+tmp<-NULL
+for(i in 1:30){
+    if(i==1){
+      TP=mean(Data[which(Data$TYPE=="SNPS" & Data$SIZE==i ),"TP"])
+      FN=mean(Data[which(Data$TYPE=="SNPS" & Data$SIZE==i ),"FN"])
+      SNS=TP/(TP+FN)
+      RES=c("SNP",i,SNS)
+      tmp=rbind(tmp,RES)
+    }
+      TP=mean(Data[which(Data$TYPE=="INS" & Data$SIZE==i ),"TP"])
+      FN=mean(Data[which(Data$TYPE=="INS" & Data$SIZE==i ),"FN"])
+      SNS=TP/(TP+FN)
+      RES=c("INS",i,SNS)
+      tmp=rbind(tmp,RES)
+    
+      TP=mean(Data[which(Data$TYPE=="DEL" & Data$SIZE==i ),"TP"])
+      FN=mean(Data[which(Data$TYPE=="DEL" & Data$SIZE==i ),"FN"])
+      SNS=TP/(TP+FN)
+      RES=c("DEL",i,SNS)
+      tmp=rbind(tmp,RES)
+}
+tmp<-data.frame(tmp)
+names(tmp)<-c("TYPE","Size","Sensitivity")
+tmp$Sensitivity<-as.numeric(as.character(tmp$Sensitivity))
+tmp<-na.omit(tmp)
+
+LEGEND=NULL
+for (TYPES in c("DEL","INS","SNPS")){
+TP=mean(tapply(Data$TP[which(Data$TYPE==TYPES)],Data$replicate[which(Data$TYPE==TYPES)],sum,simplify = T))
+FP=mean(tapply(Data$FP[which(Data$TYPE==TYPES)],Data$replicate[which(Data$TYPE==TYPES)],sum,simplify = T))
+FN=mean(tapply(Data$FN[which(Data$TYPE==TYPES)],Data$replicate[which(Data$TYPE==TYPES)],sum,simplify = T))
+TN=mean(tapply(as.numeric(Data$TN[which(Data$TYPE==TYPES)]),Data$replicate[which(Data$TYPE==TYPES)],sum,simplify = T))
+Sensitivity=round(TP/(TP+FN),digits=3)
+res=paste(TYPES,Sensitivity,sep=" = ")
+LEGEND=c(LEGEND,res)
+}
+LEGEND
+
+tmp$Size<-as.numeric(tmp$Size)
+p=NULL
+p<- ggplot(tmp,aes(x=Size,y=Sensitivity,group=TYPE,colour=TYPE))+ylim(0,1)
+p<-p+scale_color_manual( values = c("blue", "red","black"))+geom_point()+geom_line()
+p<-p+theme(legend.position=c(0.1,0.1))
+p<-p+scale_color_manual("Overall",labels =c(paste(LEGEND,names(LEGEND))), values = c("black", "red","blue"))
+p+labs(title ="NA12878")
+ggsave(p+labs(title ="NA12878"),file="NA12878_Accuracy.png")
+
+```
+
+
