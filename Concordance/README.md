@@ -3,7 +3,7 @@
 Enter description here
 
 
-Note: This can only be run on cgsl01 in its current form beacse it traverses directories to find config files
+Note: This can only be run on cgsl01 in its current form because it traverses directories to find config files
 
 ##### Make the input config file
 The config file has 5 space-sperated columns
