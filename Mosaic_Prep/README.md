@@ -2,7 +2,7 @@
 This description is currently only good for WESTA.  It needs to be re-factored to work in a more generalized manner.
 
 ```
-export PATH=$PATH:/biotools/biotools/vcflib:/usr/local/biotools/bedtools/2.20.1/bin/
+export PATH=$PATH:/biotools/biotools/vcflib:/usr/local/biotools/bedtools/2.20.1/bin/:/usr/local/biotools/vcflib/2015_3_20/bin/
 VCF1=/dlmp/prod/runs/WESTA/HBFT9ADXX_ProbBProbA10/trio/OUTPUT/PI/exome/HBFT9ADXX_ProbBProbA10/variants/variants.phased.vcf.gz
 VCF2=/dlmp/prod/runs/WESTA/HBFT9ADXX_ProbBProbA25/trio/OUTPUT/PI/exome/HBFT9ADXX_ProbBProbA25/variants/variants.phased.vcf.gz
 VCF3=/dlmp/prod/runs/WESTA/HBFT6ADXX_ProbA-Lib1a/trio/OUTPUT/PI/exome/HBFT6ADXX_ProbA-Lib1a/variants/variants.phased.vcf.gz
@@ -39,7 +39,7 @@ perl ./scripts/Format_extract.pl ProbA.25pc.vcf -q AD|grep -v "#"|cut -f11|tr ",
 ```
 
 ##### Concordance
- Then run it through the concordance analysis from Concordance.Rmd
+ Then run it through the concordance analysis from scripts/Mosaic.Rmd
 
 
 

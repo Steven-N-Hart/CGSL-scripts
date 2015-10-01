@@ -6,6 +6,8 @@ output: html_document
 ---
 
 ```{r echo=FALSE}
+library(ggplot2)
+library("gridExtra")
 Mosaic<-NULL
 AD<-NULL
 i=0
@@ -44,7 +46,7 @@ for (x in c("ProbBProbA10_","ProbBProbA25_")){
   #AD$AAF<-AD$Ref/AD$Alt
   }
 }
-a
+
 
 AD$AAF<-AD$Ref/AD$Alt
 p=NULL
