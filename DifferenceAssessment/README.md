@@ -9,9 +9,9 @@
 ##      -b    BAM file from CLC pipeline
 ##      -B    BAM file from GGPS pipeline
 ##   Optional:
-##	-l    enable logging
-##	-c    config file [defaults to the place where the script was run]
-##	-T    BED file of the regions to restrict the analysis to
+##		-l    enable logging
+##		-c    config file [defaults to the place where the script was run]
+##		-T    BED file of the regions to restrict the analysis to
 ##
 ## 	This script is designed to find out why varaint calls are
 ##	discordant between the CLC and genome GPS pipelines.  The
