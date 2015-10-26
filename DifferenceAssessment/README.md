@@ -27,4 +27,4 @@
 
 
 ### Script Outputs:
-![alt text](https://github.com/Steven-N-Hart/CGSL-scripts/images/DifferenceAssessment.png "Output image file")
+![An image should be displayed here](https://github.com/Steven-N-Hart/CGSL-scripts/blob/master/DifferenceAssessment/images/DifferenceAssessment.png "Output image file")
