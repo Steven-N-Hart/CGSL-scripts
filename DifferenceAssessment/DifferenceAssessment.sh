@@ -12,8 +12,8 @@ cat << EOF
 ##      -B	BAM file from GGPS pipeline
 ##
 ##   Optional:
-##	-s	Sample name from clcVCF [if set, will only compare that sample]
-##	-S	Sample name from ggpsVCF [if set, will only compare that sample]
+##	-s	Sample name from clcVCF (choose this sample from mulisample VCF)
+##	-S	Sample name from ggpsVCF (choose this sample from mulisample VCF)
 ##	-l	enable logging
 ##	-c	config file [defaults to the place where the script was run]
 ##	-T	BED file of the regions to restrict the analysis to

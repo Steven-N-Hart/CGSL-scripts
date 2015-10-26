@@ -10,8 +10,8 @@
 ##      -B      BAM file from GGPS pipeline
 ##
 ##   Optional:
-##      -s      Sample name from clcVCF [if set, will only compare that sample]
-##      -S      Sample name from ggpsVCF [if set, will only compare that sample]
+##      -s      Sample name from clcVCF (choose this sample from multisample VCF)
+##      -S      Sample name from ggpsVCF (choose this sample from multisample VCF)
 ##      -l      enable logging
 ##      -c      config file [defaults to the place where the script was run]
 ##      -T      BED file of the regions to restrict the analysis to
@@ -33,7 +33,8 @@ This script takes as inputs two VCF and two BAM files for comparison.  An exampl
 
 **_Important Notes_**
 * This does not say which variants are correctly called in each, just identifying and describing the differences.
-* Assumes the VCF files are single sample only
+* Assumes the VCF files are single sample only (declare sample names if multi-sample)
+
 
 ### Script Outputs:
 ![An image should be displayed here](https://github.com/Steven-N-Hart/CGSL-scripts/blob/master/DifferenceAssessment/images/DifferenceAssessment.png "Output image file")
