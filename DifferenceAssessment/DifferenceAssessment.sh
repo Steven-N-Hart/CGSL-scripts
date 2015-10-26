@@ -6,22 +6,26 @@ cat << EOF
 ##
 ## Script Options:
 ##   Required:
-##      -v    VCF file from CLC pipeline
-##      -V    VCF file from GGPS pipeline
-##      -b    BAM file from CLC pipeline
-##      -B    BAM file from GGPS pipeline
-##   Optional:
-##      -l    enable logging
-##	-c    config file [defaults to the place where the script was run]
-##	-T    BED file of the regions to restrict the analysis to
+##      -v	VCF file from CLC pipeline
+##      -V	VCF file from GGPS pipeline
+##      -b	BAM file from CLC pipeline
+##      -B	BAM file from GGPS pipeline
 ##
-## 	This script is designed to find out why varaint calls are
-##	discordant between the CLC and genome GPS pipelines.  The
-##	final output is a summary html document that classifies the
-##	contribution of variants to one pipeline or the other by comparing
-## 	the total and alternate alle variants for pipeline-specific variants.
-## 	This same pipeline could be used to compare the results of difference versions
-##	of the same workflow.
+##   Optional:
+##	-s	Sample name from clcVCF [if set, will only compare that sample]
+##	-S	Sample name from ggpsVCF [if set, will only compare that sample]
+##	-l	enable logging
+##	-c	config file [defaults to the place where the script was run]
+##	-T	BED file of the regions to restrict the analysis to
+##	-k	Flag set to keep temporary files (for debugging only)
+##
+##
+## 	This script is designed to find out why variant calls are discordant between the CLC and genomeGPS 
+##	pipelines.  The final output is a summary html document that classifies the contribution of variants
+##	to one pipeline or the other by comparing the total and alternate alle variants for pipeline-specific
+##	variants.  This same pipeline could be used to compare the results of difference versions of the 
+##	same workflow.
+##
 #########################################################################################################
 
 EOF
@@ -40,7 +44,7 @@ configFile=${DIR}/config/config.cfg
 ##################################################################################
 echo "Options specified: $@"
 ##fix
-while getopts "v:V:b:B:lc:T:k" OPTION; do
+while getopts "v:V:b:B:lc:T:ks:S:h" OPTION; do
   case $OPTION in
     v) clcVCF=$OPTARG ;;
     V) ggpsVCF=$OPTARG ;;
@@ -50,6 +54,8 @@ while getopts "v:V:b:B:lc:T:k" OPTION; do
 	c) configFile=$OPTARG ;;
 	T) targetBed=$OPTARG ;;
 	k) keepTemp="TRUE" ;;
+	s) clcSample=$OPTARG ;;
+	s) ggpsSample=$OPTARG ;;
     h) usage
         exit ;;
 	\?) echo "Invalid option: -$OPTARG. See output file for usage." >&2
@@ -100,6 +106,39 @@ then
 else
 	ln -s $ggpsVCF ggps.vcf
 fi
+
+
+##################################################################################
+###
+###     Subset to samples of interest
+###
+##################################################################################
+#Check to see if samples are present in VCF
+if [[ ! -z "$clcSample" ]]
+then
+	SAMPLE_NAME=`$VCFLIB_PATH/vcfsamplenames $clcVCF |grep $clcSample`
+	if [ -z "$SAMPLE_NAME" ]
+	then
+		echo "I could not find $clcSample in $clcVCF"
+		exit 100
+	fi
+	$VCFLIB_PATH/vcfkeepsamples clc.vcf $clcSample |$VCFLIB_PATH/vcffixup - |$VCFLIB_PATH/vcffilter -f "AC > 0" > tmp
+	mv tmp clc.vcf
+fi
+
+#Check to see if samples are present in VCF
+if [[ ! -z "$ggpsSample" ]]
+then
+	SAMPLE_NAME=`$VCFLIB_PATH/vcfsamplenames $ggpsVCF |grep $ggpsSample`
+	if [ -z "$SAMPLE_NAME" ]
+	then
+		echo "I could not find $ggpsSample in $ggpsVCF"
+		exit 100
+	fi
+	$VCFLIB_PATH/vcfkeepsamples ggps.vcf $ggpsSample |$VCFLIB_PATH/vcffixup - |$VCFLIB_PATH/vcffilter -f "AC > 0" > tmp
+	mv tmp ggps.vcf
+fi
+
 
 ##################################################################################
 ###
