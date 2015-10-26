@@ -1,4 +1,5 @@
-###Usage
+##Usage
+```
 ##########################################################################################################
 ##
 ## Script Options:
@@ -20,8 +21,9 @@
 ## 	This same pipeline could be used to compare the results of difference versions
 ##	of the same workflow.
 #########################################################################################################
+```
 
-Script Inputs:
+### Script Inputs:
 
 
-Script Outputs:
+### Script Outputs:
