@@ -9,7 +9,7 @@
 ##      -b    BAM file from CLC pipeline
 ##      -B    BAM file from GGPS pipeline
 ##   Optional:
-##      -l    enable logging
+##	-l    enable logging
 ##	-c    config file [defaults to the place where the script was run]
 ##	-T    BED file of the regions to restrict the analysis to
 ##
