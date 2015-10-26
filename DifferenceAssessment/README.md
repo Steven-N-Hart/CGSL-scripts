@@ -27,3 +27,4 @@
 
 
 ### Script Outputs:
+![alt text](https://github.com/Steven-N-Hart/CGSL-scripts/images/DifferenceAssessment.png "Output image file")
