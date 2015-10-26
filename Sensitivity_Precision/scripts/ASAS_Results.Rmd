@@ -7,10 +7,11 @@ output: html_document
 
 
 ```{r, echo=FALSE}
+#This will loop throught the current working directory for subdiurs that start with ASAS
 prefix="ASAS_"
-
+library("gridExtra")
 library(ggplot2)
-setwd("/data5/bsi/epibreast/m087494.couch/CGSL/Verification/TEST")
+#setwd("/data5/bsi/epibreast/m087494.couch/CGSL/Verification/TEST")
 #Get Files, but exclude images already created
 analyses=dir()[grep(prefix,dir())]
 analyses<-analyses[grep(".R",analyses,invert=T)]
@@ -89,11 +90,37 @@ tmp$Size<-as.numeric(tmp$Size)
 p=NULL
 p<- ggplot(tmp,aes(x=Size,y=Sensitivity,group=TYPE,colour=TYPE))+ylim(0,1)
 p<-p+scale_color_manual( values = c("blue", "red","black"))+geom_point()+geom_line()
-p<-p+theme(legend.position=c(0.1,0.1))
+p<-p+theme(legend.position=c(0.15,0.1))
 p<-p+scale_color_manual("Overall",labels =c(paste(LEGEND,names(LEGEND))), values = c("black", "red","blue"))
-p+labs(title ="NA12878")
-ggsave(p+labs(title ="NA12878"),file="NA12878_Accuracy.png")
+SNS_PLOT<-p+labs(title ="NA12878")
+#ggsave(SNS_PLOT,file="NA12878_Accuracy.png")
+#Dont for get to add a histogram of events
+HIST<-Data[which(Data$replicate==1),]
+HIST_PLOT<-ggplot(data=HIST,aes(x=SIZE,y=TP+FN,group=TYPE,fill=TYPE))+geom_bar(stat="identity",positio="dodge")+ylim(0,500)+theme(legend.position=c(0.9,0.9))
+
+png(file="OverallASAS.png",units="in",res=300,height=8,width=12)
+grid.arrange(SNS_PLOT,HIST_PLOT,ncol=2)
+dev.off()
 
 ```
+Need to get overall sensitivity values
+```{r echo=FALSE}
+
+Data$N<-Data$TP+Data$FP
+
+#Get count of events
+TMP=aggregate(N ~ TYPE + replicate,sum,data=Data)
+NUMBER_EVENTS=aggregate(N ~ TYPE,mean,data=TMP)
+
+#Get MEAN senstitivity
+TMP=aggregate(SNS ~ TYPE + replicate,mean,data=Data)
+SENSITIVITY=aggregate(SNS ~ TYPE,mean,data=TMP)
+Table7=merge(SENSITIVITY,NUMBER_EVENTS)
 
 
+
+
+
+knitr::kable(Table7)
+write.table(Table7,file="Table7.tsv",sep = "\t",row.names = F)
+```
