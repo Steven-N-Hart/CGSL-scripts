@@ -30,7 +30,7 @@ This script takes as inputs two VCF and two BAM files for comaprison.  An exampl
 
 ### Script Outputs:
 ![An image should be displayed here](https://github.com/Steven-N-Hart/CGSL-scripts/blob/master/DifferenceAssessment/images/DifferenceAssessment.png "Output image file")
-The results are output into 4 different quadrants of a single image file.  In the upper left, we plot the alternate Allele Frequency [AF] (i.e. fraction of reads supported the alternate allele) as a function of total Depth [DP].  The size of the plot character represents the Genotype Quality [GQ], a measure of confidence about the stated genotype.  Bigger cicrles mean higher confidence.  The colors differentiate those that were present only in the first VCF (ggpsMissed) or the second (clcMissed).
+The results are output into 4 different quadrants of a single image file.  In the upper left, we plot the [AF] alternate Allele Frequency (i.e. fraction of reads supported the alternate allele) as a function of total Depth [DP].  The size of the plot character represents the Genotype Quality [GQ], a measure of confidence about the stated genotype.  Bigger cicrles mean higher confidence.  The colors differentiate those that were present only in the first VCF (ggpsMissed) or the second (clcMissed).
 
 The top left image displays how many genotypes were discordant.  As before, clcMissed refers to variants that were present only in the 2nd VCF File, whereas the ggpsMised are the number of events tat were found only in the 1st VCF file.
 
