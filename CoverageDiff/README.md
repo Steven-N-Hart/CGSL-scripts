@@ -34,7 +34,7 @@ Any region that fails that minimum depth in either sample will be output in a ta
 There are 2 files that are ouptut from these scripts, an image file (CoverageDiff.png) and table (CoverageDifference.xls).
 
 Example CoverageDiff.png file:
-![An image should be displayed here](https://github.com/Steven-N-Hart/CGSL-scripts/blob/master/DifferenceAssessment/images/DifferenceAssessment.png "Output image file")
+![An image should be displayed here](https://raw.githubusercontent.com/Steven-N-Hart/CGSL-scripts/master/CoverageDiff/images/CoverageDiff.png "Output image file")
 The left panel summarizes the density distribution of how the coverage differs for every base in the capture region (deltaCov).  
 Numbers < 0 indicate more coverage in the 2nd BAM file, while numbers > 0 indicate more coverage in the 1st BAM file.
 The right panel shows the coverage for each position in the target region from both BAM files.  A linear relationship is expected.
