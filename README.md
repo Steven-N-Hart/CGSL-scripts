@@ -12,7 +12,7 @@
 
   * images/
     *  This is where you should put any images you need for this website
-    *  We may need to rename this to be outputs so that we can keep example outfut files
+    *  We may want to rename this to be *outputs* so that we can keep example output files
   
   *  config/
     * Should contain at least 1 file named config.cfg
