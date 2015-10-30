@@ -7,14 +7,14 @@
     *   Running this script without options (or -h) should display an infromative usage statement with clear descriptions of all variables
     *   Any optional arguments that are needed in ancillary scripts must be captured here
   
-  * scripts/
+  * *scripts/*
     * Any script that is needed to support the primary wrapper should be placed here
 
-  * images/
+  * *images/*
     *  This is where you should put any images you need for this website
     *  We may want to rename this to be *outputs* so that we can keep example output files
   
-  *  config/
+  *  *config/*
     * Should contain at least 1 file named config.cfg
     * This is where you should define all of the tool paths necessary to run all the script
       * An example would look like this:  
