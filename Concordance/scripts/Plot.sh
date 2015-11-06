@@ -1,0 +1,7 @@
+#!/bin/sh
+SAMPLE=$1
+PATH=$2
+SCRIPTPATH=$3
+RPATH=$4
+
+$RPATH/Rscript $SCRIPTPATH/Concordance.R $SAMPLE $PATH

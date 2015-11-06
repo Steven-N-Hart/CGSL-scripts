@@ -4,6 +4,7 @@
 ###@EndDocs
 NGS_CORE_PROFILE=/dlmp/prod/scripts/ngs_core/ngs_core.profile
 
+
 __file="$(test -L "$0" && readlink "$0" || echo "$0")"
 __dir="$(cd "$(dirname "${__file}")"; pwd;)"
 
@@ -25,6 +26,7 @@ else
   echo "ngs_core.profile was not found. Unable to continue."
   exit 1
 fi
+
 
 usage () {
 cat << EOF
@@ -161,7 +163,7 @@ fi
 
 
 
-CONCORDANCE=$("$BEDTOOLS/intersectBed" -a ${PREFIX}.1.out -b ${PREFIX}.2.out |grep -v "#"|wc -l)
+CONCORDANCE=$("$BEDTOOLS/intersectBed" -u -a ${PREFIX}.1.out -b ${PREFIX}.2.out |grep -v "#"|wc -l)
 
 COUNT1=`grep -v "#" ${PREFIX}.1.out|wc -l`
 COUNT2=`grep -v "#" ${PREFIX}.2.out|wc -l`
@@ -174,10 +176,12 @@ fi
 
 CONCORDANCE=$(echo "scale=3;$CONCORDANCE / $MAX" | bc)
 
+name2="2_"$name2
+name1="1_"$name1
+
 echo -e "$name1\t$name2\tConcordance\t$TYPE\t$SIZE\t$CONCORDANCE\t$COUNT1\t$COUNT2"
 
 if [ -z $KEEP ] ; then
 	rm "${PREFIX}.1.out" "${PREFIX}.2.out"
 fi
-
 
