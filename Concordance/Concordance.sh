@@ -10,7 +10,7 @@ cat << EOF
 ##
 ##   Optional:
 ##	-T	BED file of the regions to restrict the analysis to
-##	-o	OUput directory
+##	-o	Output directory
 ##	-c	config file [defaults to the place where the script was run/config]
 ##
 ##
@@ -37,7 +37,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 #This sets the default config file
 configFile=${DIR}/config/config.cfg
 OUTDIR=$PWD
-TIMESTAMP=$(date | cut -f5,4,2 -d " " | sed 's/ /_/g' | sed 's/:/_/g')
+TIMESTAMP=$(date | cut -f3,4,2 -d " " | sed 's/ /_/g' | sed 's/:/_/g')
 RESULTDIR="result"_$TIMESTAMP
 OUTDIRFLAG=0
 ##################################################################################
@@ -97,6 +97,7 @@ fi
 
 #Now validate each component
 LEN=`wc -l $inputFile |cut -f1 -d" "`
+
 for x in `seq 1 $LEN`
 do
 	LABEL=$(awk -F'\t' -v var=$x '{if(NR==var){print $1}}' $inputFile)
@@ -143,10 +144,9 @@ do
 	if [ -f "$OUTDIR/$VCF1Name" ] && [ -f "$OUTDIR/$VCF2Name" ]; then continue; fi
 	Prefix1="1_"
 	Prefix2="2_"
-	VCF1Name=$Prefix1$VCF1Name
-	VCF2Name=$Prefix2$VCF2Name
-	
-
+	if [ ! -f "$OUTDIR/$VCF1Name" ] && [ -f "$OUTDIR/$VCF2Name" ]; then VCF1Name=$Prefix1$VCF1Name VCF2Name=$VCF2Name; fi
+	if [ -f "$OUTDIR/$VCF1Name" ] && [ ! -f "$OUTDIR/$VCF2Name" ]; then VCF1Name=$VCF1Name VCF2Name=$Prefix2$VCF2Name; fi
+	if [ ! -f "$OUTDIR/$VCF1Name" ] && [ ! -f "$OUTDIR/$VCF2Name" ]; then VCF1Name=$Prefix1$VCF1Name VCF2Name=$Prefix2$VCF2Name; fi
 	if [ -z "$targetBed" ] ;
 	then
 		#Get a local copy of each VCF
@@ -184,15 +184,7 @@ do
 		VCF2Loc=$(readlink -f $VCF2Name)
 		sed -i 's|'$VCF2'|'$VCF2Loc'|g' $inputFile
 	fi
-	
-	##################################################################################
-	###
-	###     Jag & Saranya to insert functions here
-	###
-	##################################################################################
-	
-	$DIR/scripts/Run.sh $inputFile $OUTDIR/$RESULTDIR/ $DIR/scripts/ $SAMPLE1 ${R_PATH} $DIR/jobs/
-		
 done
 
+$DIR/scripts/Run.sh $inputFile $OUTDIR/$RESULTDIR/ $DIR/scripts/ ${R_PATH} $DIR/jobs/
 echo "CONCORDANCE SUBMITTED"

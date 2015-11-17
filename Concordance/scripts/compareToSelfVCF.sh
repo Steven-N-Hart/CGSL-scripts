@@ -28,7 +28,7 @@ else
 fi
 
 
-usage () {
+usage (){
 cat << EOF
 
 This script is designed to measure the concordance between two samples.

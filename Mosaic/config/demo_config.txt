@@ -1,0 +1,19 @@
+##-  Tools  -##
+
+BIN_PATH=/biotools/biotools/vcflib:/usr/local/biotools/bedtools/2.20.1/bin:/usr/local/biotools/vcflib/2015_3_20/bin
+CONCORDANCE_PATH=/dlmp/sandbox/cgslIS/CGSL-scripts/Concordance/scripts
+MOSAIC_PATH=/dlmp/sandbox/cgslIS/CGSL-scripts/Mosaic/scripts
+RLIB_PATH=/dlmp/sandbox/cgslIS/nipun/projects/delDupPipeline/Rlib
+R_PATH=/usr/local/biotools/r/3.1.1/bin
+PYTHON_PATH=/usr/local/biotools/python/2.7.3/bin
+BEDFILE=/dlmp/misc-data/reference/ggpsReferences/exome/ontarget_20150407.bed
+
+
+##-  SGE OPTIONS  -##
+
+EMAIL=mistry.nipun@mayo.edu
+QUEUE=sandbox.q
+H_VMEM=3G
+H_STACK=10M
+
+

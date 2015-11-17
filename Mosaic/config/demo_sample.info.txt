@@ -1,0 +1,4 @@
+MAJOR ProbB-Lib1a /dlmp/prod/runs/WESTA/HBFTBADXX_ProbB-Lib1a/trio/OUTPUT/PI/exome/HBFTBADXX_ProbB-Lib1a/variants/variants.phased.vcf.gz
+MINOR ProbA-Lib1a /dlmp/prod/runs/WESTA/HBFT6ADXX_ProbA-Lib1a/trio/OUTPUT/PI/exome/HBFT6ADXX_ProbA-Lib1a/variants/variants.phased.vcf.gz
+MOSAIC1 ProbBProbA10 /dlmp/prod/runs/WESTA/HBFT9ADXX_ProbBProbA10/trio/OUTPUT/PI/exome/HBFT9ADXX_ProbBProbA10/variants/variants.phased.vcf.gz
+MOSAIC2 ProbBProbA25 /dlmp/prod/runs/WESTA/HBFT9ADXX_ProbBProbA25/trio/OUTPUT/PI/exome/HBFT9ADXX_ProbBProbA25/variants/variants.phased.vcf.gz
