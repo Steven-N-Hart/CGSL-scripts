@@ -20,7 +20,7 @@ do
  fi
  SUBMISSION=`echo ${RUN}|cut -f1 --complement -d" "`
  FILE_PREFIX=$RANDOM
- qsub -V -q sandbox.q -N Concordance -l h_vmem=3G -l h_stack=10M -m ae -M $EMAIL -e $JOB_PATH/Concordance"_"$FILE_PREFIX.error -o $JOB_PATH/Concordance"_"$FILE_PREFIX.out $SCRIPTPATH/./FiguresForConcordance.sh ${SUBMISSION} ${DIR} ${OUTPUTPATH} ${SCRIPTPATH} ${CONFIG}
- qsub -hold_jid Concordance -V -q sandbox.q -N RemoveInter -l h_vmem=3G -l h_stack=10M -m ae -M $EMAIL -e $JOB_PATH/RemoveIntermediates"_"$FILE_PREFIX.error -o $JOB_PATH/RemoveIntermediates"_"$FILE_PREFIX.out $SCRIPTPATH/./RemoveIntermediates.sh ${OUTPUTPATH} ${DIR} ${CONFIG} 
+ qsub -V -q sandbox.q -N Concordance$x -l h_vmem=3G -l h_stack=10M -m ae -M $EMAIL -e $JOB_PATH/Concordance"_"$FILE_PREFIX.error -o $JOB_PATH/Concordance"_"$FILE_PREFIX.out $SCRIPTPATH/./FiguresForConcordance.sh ${SUBMISSION} ${DIR} ${OUTPUTPATH} ${SCRIPTPATH} ${CONFIG}
+ qsub -hold_jid Concordance$x -V -q sandbox.q -N RemoveInter -l h_vmem=3G -l h_stack=10M -m ae -M $EMAIL -e $JOB_PATH/RemoveIntermediates"_"$FILE_PREFIX.error -o $JOB_PATH/RemoveIntermediates"_"$FILE_PREFIX.out $SCRIPTPATH/./RemoveIntermediates.sh ${OUTPUTPATH} ${DIR} ${CONFIG} 
 done
 qsub -hold_jid RemoveInter -V -q sandbox.q -N Rscript -l h_vmem=3G -l h_stack=10M -m ae -M $EMAIL -e $JOB_PATH/Plot"_"$FILE_PREFIX.error -o $JOB_PATH/Plot"_"$FILE_PREFIX.out $SCRIPTPATH/./Plot.sh $SAMPLENAME $OUTPUTPATH $SCRIPTPATH $R_PATH
