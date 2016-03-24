@@ -123,18 +123,28 @@ do
 		cp $VCF1 $OUTDIR/$RESULTDIR/$VCFReName
 		sed -i 's| (Variants)||g' $OUTDIR/$RESULTDIR/$VCFReName
 		sed -i 's| (paired)||g' $OUTDIR/$RESULTDIR/$VCFReName
+		sed -i 's|\t(Variants)||g' $OUTDIR/$RESULTDIR/$VCFReName
+		sed -i 's|\t(paired)||g' $OUTDIR/$RESULTDIR/$VCFReName
 		VCFReName=${VCF2BaseName}_2.vcf
 		VCF2Name=${VCF2BaseName}_2.vcf
 		cp $VCF2 $OUTDIR/$RESULTDIR/$VCFReName
 		sed -i 's| (Variants)||g' $OUTDIR/$RESULTDIR/$VCFReName
 		sed -i 's| (paired)||g' $OUTDIR/$RESULTDIR/$VCFReName
+		sed -i 's|\t(Variants)||g' $OUTDIR/$RESULTDIR/$VCFReName
+		sed -i 's|\t(paired)||g' $OUTDIR/$RESULTDIR/$VCFReName
 	else
+		VCF1BaseName=`basename $VCF1Name .vcf`
+		VCF2BaseName=`basename $VCF2Name .vcf`
 		cp $VCF1 $OUTDIR/$RESULTDIR/
-		sed -i 's| (Variants)||g' $OUTDIR/$RESULTDIR/$VCF1Name
-		sed -i 's| (paired)||g' $OUTDIR/$RESULTDIR/$VCFReName
+		sed -i 's| (Variants)||g' $OUTDIR/$RESULTDIR/${VCF1BaseName}.vcf
+		sed -i 's| (paired)||g' $OUTDIR/$RESULTDIR/${VCF1BaseName}.vcf
+		sed -i 's|\t(Variants)||g' $OUTDIR/$RESULTDIR/${VCF1BaseName}.vcf
+		sed -i 's|\t(paired)||g' $OUTDIR/$RESULTDIR/${VCF1BaseName}.vcf
 		cp $VCF2 $OUTDIR/$RESULTDIR/
-		sed -i 's| (Variants)||g' $OUTDIR/$RESULTDIR/$VCF2Name
-		sed -i 's| (paired)||g' $OUTDIR/$RESULTDIR/$VCFReName
+		sed -i 's| (Variants)||g' $OUTDIR/$RESULTDIR/${VCF2BaseName}.vcf
+		sed -i 's| (paired)||g' $OUTDIR/$RESULTDIR/${VCF2BaseName}.vcf
+		sed -i 's|\t(Variants)||g' $OUTDIR/$RESULTDIR/${VCF2BaseName}.vcf
+		sed -i 's|\t(paired)||g' $OUTDIR/$RESULTDIR/${VCF2BaseName}.vcf
 	fi
 	
 	
@@ -197,10 +207,10 @@ do
 		grep "#" $VCF1 > $OUTDIR/$RESULTDIR/${VCF1Name}_target.vcf
 		cat $OUTDIR/$RESULTDIR/tmp >> $OUTDIR/$RESULTDIR/${VCF1Name}_target.vcf
 		
+		
 		$BEDTOOLS_PATH intersect -a $VCF2 -b $targetBed -u > $OUTDIR/$RESULTDIR/tmp
 		grep "#" $VCF2 > $OUTDIR/$RESULTDIR/${VCF2Name}_target.vcf
 		cat $OUTDIR/$RESULTDIR/tmp >> $OUTDIR/$RESULTDIR/${VCF2Name}_target.vcf
-		
 		echo -e 'InterAssay\t'$OUTDIR'/'$RESULTDIR'/'${VCF1Name}_target.vcf'\t'$OUTDIR'/'$RESULTDIR'/'${VCF2Name}_target.vcf'\t'$SAMPLE1'\t'$SAMPLE2 >> $OUTDIR/$RESULTDIR/inputfile_target.tsv	
 	fi
 done
